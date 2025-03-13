@@ -72,8 +72,10 @@ if uploaded_file is not None:
     
     st.write("Processing image...")
     # Preprocess the image: resize, convert to array, normalize, etc.
-    target_size = (200, 200)  # change this to match your model's input size
-    image = ImageOps.fit(image, target_size, Image.NEAREST)
+    image = image.convert('L')  # Convert to grayscale (this makes it 100x100x1)
+
+    # Resize image
+    image = image.resize((200, 200))
 
     rich, poor = process(image)
     
