@@ -79,7 +79,7 @@ if uploaded_file is not None:
     st.write(poor.shape)
     
     # Get prediction from the model
-    predictions = model.predict({rich, poor})
+    predictions = model.predict([rich, poor])
 
     # Decide the class based on a threshold (0.5 is a common choice)
     predicted_prob = predictions[0][0]  # assuming model output shape is (1, 1)
