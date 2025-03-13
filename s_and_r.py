@@ -160,10 +160,14 @@ def smash_n_reconstruct(input_image, coloured=True):
 
     ----------------------------------------------------
     ## parameters:
-    - input_image: Accepts input path of the image or a file-like object
+    - input_image: Accepts input path of the image, a file-like object, or a PIL Image object
     """
-    # Open the image
-    image = PIL.Image.open(input_image)
+    # Check if input is already a PIL Image
+    if isinstance(input_image, PIL.Image.Image):
+        image = input_image
+    else:
+        # Open the image if it's a path or file-like object
+        image = PIL.Image.open(input_image)
 
     # Convert image to grayscale if needed
     if not coloured:
