@@ -69,7 +69,7 @@ uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png
 if uploaded_file is not None:
     # Open the image file
     image = PIL.Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
+    st.image(image, caption="Uploaded Image")
     
     st.write("Processing image...")
 
@@ -90,4 +90,4 @@ if uploaded_file is not None:
 
     st.header("Prediction Results")
     st.subheader(f"**Predicted Class:** {predicted_class}")
-    #st.write(f"**Confidence:** {predicted_prob:.2f}" if predicted_class == "Positive" else f"**Confidence:** {1 - predicted_prob:.2f}")
+    st.write(f"**Confidence:** {predicted_prob:.2f}" if predicted_class == "Positive" else f"**Confidence:** {1 - predicted_prob:.2f}")
