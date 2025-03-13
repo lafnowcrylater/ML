@@ -69,11 +69,14 @@ uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png
 if uploaded_file is not None:
     # Open the image file
     image = PIL.Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
+    st.image(image, caption="Uploaded Image", use_column_width=True)
     
     st.write("Processing image...")
 
     rich, poor = process(image)
+
+    st.write(rich.shape)
+    st.write(poor.shape)
     
     # Get prediction from the model
     predictions = model.predict([rich, poor])
