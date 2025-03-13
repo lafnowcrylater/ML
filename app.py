@@ -26,7 +26,7 @@ def hard_tanh(x):
 class featureExtractionLayer(Layer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.conv = Conv2D(filters=32, kernel_size=(3,3), activation='relu')
+        self.conv = Conv2D(filters=32, kernel_size=(3,3), padding='SAME', activation='relu')
         self.bn = BatchNormalization()
         self.activation = Lambda(hard_tanh)
 
