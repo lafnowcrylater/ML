@@ -17,7 +17,7 @@ def img_to_patches(input_image) -> tuple:
     - imgs: list of color patches (as numpy arrays)
     """
     # Open the image using PIL (supports both file paths and file-like objects)
-    img = PIL.Image.open(input_image)
+    img = input_image
     
     # If a path is provided, check the extension; if not jpg/jpeg, convert to RGB
     if isinstance(input_image, str):
