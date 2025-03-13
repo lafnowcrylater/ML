@@ -40,16 +40,14 @@ class featureExtractionLayer(Layer):
 
 
 
-# Set up the page configuration
 st.set_page_config(
     page_title="Synthetic Image Detector",
     layout="wide",
 )
 
 # Cache the model loading so it is only loaded once
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_model():
-    # Update the model path as needed
     try:
         model = tf.keras.models.load_model(
             ('syn_classifier.keras'),
