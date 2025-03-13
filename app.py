@@ -73,9 +73,6 @@ if uploaded_file is not None:
     
     st.write("Processing image...")
 
-    # Resize image
-    image = image.resize((200, 200))
-
     rich, poor = process(image)
     
     # Get prediction from the model
