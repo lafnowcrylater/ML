@@ -61,7 +61,7 @@ def load_model():
 
 model = load_model()
 
-st.title("Image Upload and Prediction App")
+st.title("Synthetic Image Detector")
 
 # File uploader accepts jpg, jpeg, and png files
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
