@@ -163,7 +163,7 @@ def smash_n_reconstruct(input_image, coloured=True):
     - input_image: Accepts input path of the image, a file-like object, or a PIL Image object
     """
     # Check if input is already a PIL Image
-    if isinstance(input_image, PIL.Image.Image):
+    if isinstance(input_image, PIL.Image):
         image = input_image
     else:
         # Open the image if it's a path or file-like object
