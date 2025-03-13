@@ -2,10 +2,29 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 from PIL import Image, ImageOps
+from filters import apply_all_filters
+from s_and_r import smash_n_reconstruct
+
+def process(image):
+    rich, poor = smash_n_reconstruct(image)
+    rich = tf.cast(tf.expand_dims(apply_all_filters(rich), axis=-1), dtype=tf.float32)
+    poor = tf.cast(tf.expand_dims(apply_all_filters(poor), axis=-1), dtype=tf.float32)
+
+    rich = rich / 255.0
+    poor = poor / 255.0
+
+    rich.set_shape([100, 100, 1])
+    poor.set_shape([100, 100, 1])
+
+    return rich, poor
+
+
+
+
 
 # Set up the page configuration
 st.set_page_config(
-    page_title="Image Prediction App",
+    page_title="Synthetic Image Detector",
     layout="wide",
 )
 
@@ -13,13 +32,10 @@ st.set_page_config(
 @st.cache(allow_output_mutation=True)
 def load_model():
     # Update the model path as needed
-    model = tf.keras.models.load_model("model.h5")
+    model = tf.keras.models.load_model("syn_classifier.keras")
     return model
 
 model = load_model()
-
-# Define your class names (modify these to match your model)
-class_names = ["class1", "class2", "class3"]
 
 st.title("Image Upload and Prediction App")
 
@@ -33,20 +49,21 @@ if uploaded_file is not None:
     
     st.write("Processing image...")
     # Preprocess the image: resize, convert to array, normalize, etc.
-    target_size = (224, 224)  # change this to match your model's input size
-    image = ImageOps.fit(image, target_size, Image.ANTIALIAS)
-    img_array = np.asarray(image)
-    # Normalize if the model expects float inputs (adjust if necessary)
-    img_array = img_array.astype("float32") / 255.0
-    # Expand dimensions to match model's input shape (batch size, height, width, channels)
-    img_array = np.expand_dims(img_array, axis=0)
+    target_size = (200, 200)  # change this to match your model's input size
+    image = ImageOps.fit(image, target_size, Image.NEAREST)
+
+    rich, poor = process(image)
     
-    # Get predictions from the model
-    predictions = model.predict(img_array)
-    predicted_index = np.argmax(predictions[0])
-    predicted_class = class_names[predicted_index]
-    confidence = predictions[0][predicted_index]
-    
+    # Get prediction from the model
+    predictions = model.predict([rich, poor])
+
+    # Decide the class based on a threshold (0.5 is a common choice)
+    predicted_prob = predictions[0][0]  # assuming model output shape is (1, 1)
+    if predicted_prob >= 0.5:
+        predicted_class = "Fake"  # or your class label for 1
+    else:
+        predicted_class = "Real"  # or your class label for 0
+
     st.write("### Prediction Results")
     st.write(f"**Predicted Class:** {predicted_class}")
-    st.write(f"**Confidence:** {confidence:.2f}")
+    st.write(f"**Confidence:** {predicted_prob:.2f}" if predicted_class == "Positive" else f"**Confidence:** {1 - predicted_prob:.2f}")
