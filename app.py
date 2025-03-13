@@ -23,7 +23,6 @@ def process(image):
 def hard_tanh(x):
     return tf.maximum(tf.minimum(x, 1), -1)
 
-@register_keras_serializable()
 class featureExtractionLayer(Layer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,8 +50,15 @@ st.set_page_config(
 @st.cache(allow_output_mutation=True)
 def load_model():
     # Update the model path as needed
-    model = tf.keras.models.load_model("syn_classifier.keras")
-    return model
+    try:
+        model = tf.keras.models.load_model(
+            ('syn_classifier.keras'),
+            custom_objects={'featureExtractionLayer': featureExtractionLayer}
+        )
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
+        return None
 
 model = load_model()
 
