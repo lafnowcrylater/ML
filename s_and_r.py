@@ -30,7 +30,7 @@ def img_to_patches(input_image) -> tuple:
     
     # Resize the image to 200x200 if needed
     if img.size != (200, 200):
-        img = img.resize((200, 200))
+        img = img.resize((200, 200), PIL.Image.NEAREST)
     
     patch_size = 25
     grayscale_imgs = []
