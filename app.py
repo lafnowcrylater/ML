@@ -1,5 +1,6 @@
 import streamlit as st
 import tensorflow as tf
+from tensorflow.keras.layers import Conv2D, BatchNormalization, Lambda, Layer
 import numpy as np
 from PIL import Image, ImageOps
 from filters import apply_all_filters
@@ -17,6 +18,23 @@ def process(image):
     poor.set_shape([100, 100, 1])
 
     return rich, poor
+
+def hard_tanh(x):
+    return tf.maximum(tf.minimum(x, 1), -1)
+
+@keras.saving.register_keras_serializable()
+class featureExtractionLayer(Layer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.conv = Conv2D(filters=32, kernel_size=(3,3), activation='relu')
+        self.bn = BatchNormalization()
+        self.activation = Lambda(hard_tanh)
+
+    def call(self, input):
+        x = self.conv(input)
+        x = self.bn(x)
+        x = self.activation(x)
+        return x
 
 
 
