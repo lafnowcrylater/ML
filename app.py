@@ -90,4 +90,4 @@ if uploaded_file is not None:
 
     st.header("Prediction Results")
     st.subheader(f"**Predicted Class:** {predicted_class}")
-    st.write(f"**Confidence:** {predicted_prob:.2f}" if predicted_class == "Positive" else f"**Confidence:** {1 - predicted_prob:.2f}")
+    #st.write(f"**Confidence:** {predicted_prob:.2f}" if predicted_class == "Positive" else f"**Confidence:** {1 - predicted_prob:.2f}")
