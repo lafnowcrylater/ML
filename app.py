@@ -23,7 +23,7 @@ def process(image):
 def hard_tanh(x):
     return tf.maximum(tf.minimum(x, 1), -1)
 
- @register_keras_serializable()
+@register_keras_serializable()
 class featureExtractionLayer(Layer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
