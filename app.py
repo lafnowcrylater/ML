@@ -3,7 +3,8 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.layers import Conv2D, BatchNormalization, Lambda, Layer
 import numpy as np
-from PIL import Image, ImageOps
+from PIL import Image
+import PIL
 from filters import apply_all_filters
 from s_and_r import smash_n_reconstruct
 
@@ -67,12 +68,10 @@ uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png
 
 if uploaded_file is not None:
     # Open the image file
-    image = Image.open(uploaded_file)
+    image = PIL.Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image", use_column_width=True)
     
     st.write("Processing image...")
-    # Preprocess the image: resize, convert to array, normalize, etc.
-    image = image.convert('L')  # Convert to grayscale (this makes it 100x100x1)
 
     # Resize image
     image = image.resize((200, 200))
