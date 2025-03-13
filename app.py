@@ -75,11 +75,11 @@ if uploaded_file is not None:
 
     rich, poor = process(image)
 
-    st.write(rich.shape)
-    st.write(poor.shape)
-    
+    rich_batch = np.expand_dims(rich, axis=0)  # Shape becomes (1, 100, 100, 1)
+    poor_batch = np.expand_dims(poor, axis=0)  # Shape becomes (1, 100, 100, 1)
+
     # Get prediction from the model
-    predictions = model.predict([rich, poor])
+    predictions = model.predict([rich_batch, poor_batch])
 
     # Decide the class based on a threshold (0.5 is a common choice)
     predicted_prob = predictions[0][0]  # assuming model output shape is (1, 1)
