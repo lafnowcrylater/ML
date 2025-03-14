@@ -83,10 +83,10 @@ if uploaded_file is not None:
 
     # Decide the class based on a threshold (0.5 is a common choice)
     predicted_prob = predictions[0][0]  # assuming model output shape is (1, 1)
-    if predicted_prob >= 0.235:
-        predicted_class = "Fake"  # or your class label for 1
+    if predicted_prob >= 0.23:
+        predicted_class = "Fake"  # class label for 1
     else:
-        predicted_class = "Real"  # or your class label for 0
+        predicted_class = "Real"  # class label for 0
 
     st.header("Prediction Results")
     st.subheader(f"**Predicted Class:** {predicted_class}")
